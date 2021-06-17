@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 
+
 /**
  * @author cparadkar
  *
@@ -18,7 +19,8 @@ public class DashboardScheduledJobExecutor {
 	private ESService esService;
 
 	@Autowired
-	private DashboardAssessmentJobHandler jobHandler;
+	private AssessmentJobService assessmentJobService;
+
 
 	/**
 	 * This method starts hourly fetch and execution of jobs.
@@ -44,13 +46,23 @@ public class DashboardScheduledJobExecutor {
 	 * This method executes jobList.
 	 * 
 	 * @param jobList
+	 * @return 
 	 */
 	private void excuteJobs(List<DashboardAssessmentJob> jobList) {
 
+		JobSubmissionStatus jobSubmissionStatus = null;
 		for (DashboardAssessmentJob job : jobList) {
-			DashboardAssessmentJobTask jobTask = jobHandler.createNewTask(job);
-			jobHandler.submitJob(jobTask);
+			try {
+				jobSubmissionStatus = assessmentJobService.run(null, convertDashboardJobs(job), null);
+			} catch (Exception e) {
+               //log error
+			}
 		}
+
+	}
+	
+	private AssessmentJobInput convertDashboardJobs(DashboardAssessmentJob job) {
+		return null;
 
 	}
 

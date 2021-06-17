@@ -8,8 +8,8 @@ package com.example.schedulingtasks.dashboarddesign;
  *
  */
 public interface DashboardAssessmentJobService {
-	void createDashboardJob(DashboardAssessmentJobInput jobInput);
+	void createDashboardJob(AssessmentUser assessmentUser, DashboardAssessmentJobInput jobInput, Long l) throws Exception;
 	void deleteDashboardJob(String jobId);
-	void updateDashboardJob(DashboardAssessmentJobInput jobInput);
-	void executeDashboardJob(DashboardAssessmentJobInput jobInput);
+	void updateDashboardJob(AssessmentUser assessmentUser,DashboardAssessmentJobInput jobInput,Long userId) throws Exception;
+	JobSubmissionStatus executeDashboardJob(DashboardAssessmentJobInput jobInput);
 }

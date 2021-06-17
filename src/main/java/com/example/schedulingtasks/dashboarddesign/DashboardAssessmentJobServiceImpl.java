@@ -15,35 +15,61 @@ public class DashboardAssessmentJobServiceImpl implements DashboardAssessmentJob
 
 	@Autowired
 	private ESService esService;
-	
 
 	@Autowired
-	private DashboardAssessmentJobHandler jobHandler;
+	private AssessmentJobService assessmentJobService;
+
+	@Autowired
+	private ProviderService providerService;
 
 	@Override
-	public void createDashboardJob(DashboardAssessmentJobInput jobInput) {
-		this.createJobRecord(dashboardJobConvertor(jobInput));
-		this.sendEmail();
+	public void createDashboardJob(AssessmentUser assessmentUser,DashboardAssessmentJobInput jobInput,Long userId) throws Exception {
+		try {
+			this.validateDashboardAssessmentJob(assessmentUser,jobInput,userId);
+			DashboardAssessmentJob job = dashboardJobConvertor(jobInput);
+			this.createJobRecord(job);
+			this.sendEmail();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			// log error
+			this.sendEmail(); // error
+			throw e;
+		}
+
 	}
-	
+
 	@Override
 	public void deleteDashboardJob(String jobId) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
-	public void updateDashboardJob(DashboardAssessmentJobInput jobInput) {
-		// TODO Auto-generated method stub
-		
+	public void updateDashboardJob(AssessmentUser assessmentUser,DashboardAssessmentJobInput jobInput,Long userId) throws Exception {
+		try {
+			this.validateDashboardAssessmentJob(assessmentUser,jobInput,userId);
+			DashboardAssessmentJob job = dashboardJobConvertor(jobInput);
+			this.updateJobRecord(job);
+			this.sendEmail();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			// log error
+			this.sendEmail(); // error
+			throw e;
+		}
+
 	}
-	
+
 	@Override
-	public void executeDashboardJob(DashboardAssessmentJobInput jobInput) {
-		DashboardAssessmentJob dashboardAssessmentJob = dashboardJobConvertor(jobInput);
-		DashboardAssessmentJobTask jobTask = jobHandler.createNewTask(dashboardAssessmentJob);
-		jobHandler.submitJob(jobTask);
-		
+	public JobSubmissionStatus executeDashboardJob(DashboardAssessmentJobInput jobInput) {
+		AssessmentJobInput job = convertDashboardJobs(jobInput);
+		JobSubmissionStatus jobSubmissionStatus = assessmentJobService.run(null, job, null);
+		try {
+			jobSubmissionStatus = assessmentJobService.run(null, job, null);
+		} catch (Exception e) {
+			// log error
+		}
+		return jobSubmissionStatus;
 	}
 
 	private DashboardAssessmentJob dashboardJobConvertor(DashboardAssessmentJobInput jobInput) {
@@ -51,19 +77,29 @@ public class DashboardAssessmentJobServiceImpl implements DashboardAssessmentJob
 
 	}
 
+	private AssessmentJobInput convertDashboardJobs(DashboardAssessmentJobInput jobInput) {
+		return null;
+
+	}
+
 	private void createJobRecord(DashboardAssessmentJob dashboardAssessmentJob) {
 
 	}
-	
-	private void sendEmail()
-	{
-		
+
+	private void updateJobRecord(DashboardAssessmentJob dashboardAssessmentJob) {
+
 	}
 
+	private void sendEmail() {
 
+	}
 
+	private void validateDashboardAssessmentJob(AssessmentUser assessmentUser, DashboardAssessmentJobInput jobInput, Long userId) throws Exception {
+		Provider provider = null;
 
+		provider = providerService.getProvider(new Long(jobInput.getProviderId()));
+		AccountValidatorFactory.validate(provider, assessmentUser, this.convertDashboardJobs(jobInput), userId);
 
-
+	}
 
 }

@@ -42,7 +42,7 @@ public class AssessmentJobResource {
 	}
 
 	@RequestMapping(value = "/deletedashboardjob", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody Object deleteJob(@RequestParam("id") String id) {
+	public @ResponseBody ResponseEntity<?>  deleteJob(@RequestParam("id") String id) {
 		return null;
 
 	}

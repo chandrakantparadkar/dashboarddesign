@@ -63,11 +63,16 @@ public class DashboardAssessmentJobServiceImpl implements DashboardAssessmentJob
 	@Override
 	public JobSubmissionStatus executeDashboardJob(DashboardAssessmentJobInput jobInput) {
 		AssessmentJobInput job = convertDashboardJobs(jobInput);
-		JobSubmissionStatus jobSubmissionStatus = assessmentJobService.run(null, job, null);
+		JobSubmissionStatus jobSubmissionStatus = null;
+
 		try {
 			jobSubmissionStatus = assessmentJobService.run(null, job, null);
+			this.sendEmail(); // error
+
 		} catch (Exception e) {
 			// log error
+			this.sendEmail(); // error
+
 		}
 		return jobSubmissionStatus;
 	}

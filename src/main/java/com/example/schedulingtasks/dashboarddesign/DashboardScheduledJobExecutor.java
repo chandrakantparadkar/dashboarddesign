@@ -20,6 +20,9 @@ public class DashboardScheduledJobExecutor {
 
 	@Autowired
 	private AssessmentJobService assessmentJobService;
+	
+	@Autowired
+	private DashboardAssessmentJobService dashboardAssessmentJobService;
 
 
 	/**
@@ -38,7 +41,7 @@ public class DashboardScheduledJobExecutor {
 	 * @return
 	 */
 	private List<DashboardAssessmentJob> fetchActiveDashboardJobs() {
-		return null;
+		return dashboardAssessmentJobService.fetchScheduledDashboardJobs();
 
 	}
 

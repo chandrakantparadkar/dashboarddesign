@@ -6,6 +6,7 @@ package com.example.schedulingtasks.dashboarddesign;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,6 +68,22 @@ public class AssessmentJobResource {
 
 	}
 	
+	@RequestMapping(
+		    value = "/fetchscheduledjobs", 
+		    method = RequestMethod.POST,
+		    produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Object fetchScheduledJobs(@RequestParam("customerId") String customerId) {
+		return dashboardAssessmentJobService.fetchScheduledDashboardJobsForCustomer(customerId);
+	}
+	
+	
+	@RequestMapping(
+		    value = "/fetchjobexecutionresult/{jobId}/{resultType}", 
+		    method = RequestMethod.POST,
+		    produces = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody Object fetchJobExecutionResult(@PathVariable String jobId, @PathVariable String resultType) {
+		return dashboardAssessmentJobService.fetchJobExecutionResult(jobId, resultType);
+	}
 	
 	private long getUserID() {
 		return 0;

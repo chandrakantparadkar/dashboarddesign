@@ -3,6 +3,8 @@
  */
 package com.example.schedulingtasks.dashboarddesign;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -76,6 +78,12 @@ public class DashboardAssessmentJobServiceImpl implements DashboardAssessmentJob
 		}
 		return jobSubmissionStatus;
 	}
+	
+	@Override
+	public List<DashboardAssessmentJob> fetchScheduledDashboardJobs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	private DashboardAssessmentJob dashboardJobConvertor(DashboardAssessmentJobInput jobInput) {
 		return null;
@@ -106,5 +114,18 @@ public class DashboardAssessmentJobServiceImpl implements DashboardAssessmentJob
 		AccountValidatorFactory.validate(provider, assessmentUser, this.convertDashboardJobs(jobInput), userId);
 
 	}
+
+	@Override
+	public List<DashboardAssessmentJob> fetchScheduledDashboardJobsForCustomer(String customerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<DashboardAssessmentJobMapping> fetchJobExecutionResult(String jobId,String resultType) {
+		return null;
+	}
+
+
 
 }
